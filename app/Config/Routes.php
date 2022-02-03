@@ -2,6 +2,8 @@
 
 namespace Config;
 
+use CodeIgniter\Commands\Utilities\Routes;
+
 // Create a new instance of our RouteCollection class.
 $routes = Services::routes();
 
@@ -33,21 +35,44 @@ $routes->setAutoRoute(true);
 // route since we don't have to scan directories.
 $routes->get('/', 'Home::index');
 
-$routes->group('admin', ['namespace' => 'App\Controllers\Auth\Admin'], function ($routes) {
-    $routes->add('login', 'LoginUser::index');
-
+// AUTH
+$routes->group('admin', ['namespace' => 'App\Controllers\Auth\Admin'], ['filter' => 'authfilter'], function ($routes) {
+    // GET ROUTE AUTH ADMIN
     $routes->get('login', 'LoginUser::index');
+    $routes->get('logout', 'AuthUser::logout');
 
+    // POST ROUTE AUTH ADMIN
+    $routes->post('valid_login', 'AuthUser::valid_login');
 });
 
-$routes->group('customer', ['namespace' => 'App\Controllers\Auth\Customer'], function ($routes) {
-    $routes->add('login', 'LoginCustomer::index');
-    $routes->add('valid_login', 'AuthCustomer::valid_login');
-
-    $routes->get('logout', 'AuthCustomer::logout');
-    $routes->post('valid_login', 'AuthCustomer::valid_login');
+$routes->group('customer', ['namespace' => 'App\Controllers\Auth\Customer'], ['filter' => 'authfilter'], function ($routes) {
+    // GET ROUTE AUTH ADMIN
     $routes->get('login', 'LoginCustomer::index');
+    $routes->get('logout', 'AuthCustomer::logout');
+
+    // POST ROUTE AUTH ADMIN
+    $routes->post('valid_login', 'AuthCustomer::valid_login');
 });
+
+
+// MANAGE DATA
+$routes->group('manage-admin', ['namespace' => 'App\Controllers\Admin'], ['filter' => 'authfilter'], function ($routes) {
+    //GET SECTION
+    $routes->get('customer', 'Customer::index');
+    $routes->get('order', 'Order::index');
+    $routes->get('kategori-project', 'KategoriProject::index');
+    $routes->get('project', 'Project::index');
+    $routes->get('membership', 'Membership::index');
+    $routes->get('user', 'User::index');
+
+    // ADD / EDIT SECTION
+    $routes->add('customer/(:segment)/edit', 'Customer::edit/$1');
+
+    //DELETE SECTION
+    $routes->get('customer/(:segment)/delete', 'Customer::delete/$1');
+
+});
+
 
 /*
  * --------------------------------------------------------------------

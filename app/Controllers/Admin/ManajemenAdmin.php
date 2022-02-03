@@ -1,23 +1,23 @@
 <?php
 
-namespace App\Controllers\Auth\Admin;
+namespace App\Controllers\Admin;
 
 use App\Controllers\BaseController;
 
-class LoginUser extends BaseController
+class ManajemenAdmin extends BaseController
 {
     public function __construct()
     {
         $this->session = session();
     }
-    
+
     public function index()
     {
-        //cek apakah ada session bernama isLogin
         if(!$this->session->has('isLogin')){
             return redirect()->to('/auth/admin/AuthUser/login');
         }else{
-            return redirect()->to('Admin/ManajemenAdmin');
+            return view('Admin/index');
         }
     }
+
 }

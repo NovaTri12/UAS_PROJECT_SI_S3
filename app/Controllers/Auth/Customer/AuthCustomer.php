@@ -37,22 +37,26 @@ class AuthCustomer extends BaseController
             //cek password
             //jika salah arahkan lagi ke halaman login
             if ($customer['password'] != md5($data['password'])) {
-                session()->setFlashdata('password', 'Password salah');
-                return redirect()->to('/auth/customer/AuthCustomer/login');
+                session()->setFlashdata('message', 'Password salah');
+                return redirect()->to('/Auth/Customer/AuthCustomer/login');
             } else {
                 //jika benar, arahkan user masuk ke aplikasi 
                 $sessLogin = [
-                    'isLogin' => true,
-                    'email' => $customer['email'],
-                    // 'role' => $customer['role']
+                    'isCustomerLogin'       => true,
+                    'email'                 => $customer['email'],
+                    'name'                  => $customer['name'],
+                    'address'               => $customer['address'],
+                    'phone_number'          => $customer['phone_number'],
+                    'role'                  => null
                 ];
                 $this->session->set($sessLogin);
+                session()->setFlashdata('message', 'Login Success');
                 return redirect()->to('/Customer/ManajemenCustomer');
             }
         } else {
             //jika username tidak ditemukan, balikkan ke halaman login
-            session()->setFlashdata('email', 'Email tidak ditemukan');
-            return redirect()->to('/auth/customer/AuthCustomer/login');
+            session()->setFlashdata('message', 'Email tidak ditemukan');
+            return redirect()->to('/Auth/Customer/AuthCustomer/login');
         }
     }
 
@@ -61,6 +65,6 @@ class AuthCustomer extends BaseController
         //hancurkan session 
         //balikan ke halaman login
         $this->session->destroy();
-        return redirect()->to('/auth/customer/AuthCustomer/login');
+    return redirect()->to('/Auth/Customer/AuthCustomer/login');
     }
 }

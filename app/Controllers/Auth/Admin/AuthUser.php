@@ -2,7 +2,7 @@
 
 namespace App\Controllers\Auth\Admin;
 
-use App\Models\Admin\UserModel;
+use App\Models\UserModel;
 
 use App\Controllers\BaseController;
 
@@ -23,7 +23,7 @@ class AuthUser extends BaseController
     public function login()
     {
         //menampilkan halaman login
-        return view('auth/Admin/LoginUser');
+        return view('Auth/Admin/LoginUser');
     }
 
     public function valid_login()
@@ -33,28 +33,30 @@ class AuthUser extends BaseController
 
         //ambil data user di database yang usernamenya sama 
         $user = $this->userModel->where('username', $data['username'])->first();
-
         //cek apakah username ditemukan
         if ($user) {
             //cek password
             //jika salah arahkan lagi ke halaman login
-            if ($user['password'] != md5($data['password']) . $user['salt']) {
-                session()->setFlashdata('password', 'Password salah');
-                return redirect()->to('/Auth/Admin/LoginUser');
+            if ($user['password'] != md5($data['password'])) {
+                session()->setFlashdata('message', 'Password salah');
+                return redirect()->to('/Auth/Admin/AuthUser/login');
             } else {
                 //jika benar, arahkan user masuk ke aplikasi 
                 $sessLogin = [
                     'isLogin' => true,
                     'username' => $user['username'],
+                    'name'     => $user['name'],
+                    'email'    => $user['email'],
                     'role' => $user['role']
                 ];
                 $this->session->set($sessLogin);
-                return redirect()->to('/user');
+                session()->setFlashdata('message', 'Login Success');
+                return redirect()->to('/Admin/ManajemenAdmin');
             }
         } else {
             //jika username tidak ditemukan, balikkan ke halaman login
-            session()->setFlashdata('username', 'Username tidak ditemukan');
-            return redirect()->to('/Auth/Admin/LoginUser');
+            session()->setFlashdata('message', 'Username Tidak Ditemukan');
+            return redirect()->to('/Auth/Admin/AuthUser/login');
         }
     }
 
@@ -63,6 +65,7 @@ class AuthUser extends BaseController
         //hancurkan session 
         //balikan ke halaman login
         $this->session->destroy();
-        return redirect()->to('/Auth/Admin/LoginUser');
+        session()->setFlashdata('message', 'Berhasil Logout');
+        return redirect()->to('/Auth/Admin/AuthUser/login');
     }
 }

@@ -4,17 +4,17 @@ namespace App\Models;
 
 use CodeIgniter\Model;
 
-class CustomerModel extends Model
+class OrderDetailsModel extends Model
 {
     protected $DBGroup          = 'default';
-    protected $table            = 'customer';
-    protected $primaryKey       = 'id_customer';
+    protected $table            = 'order_details';
+    protected $primaryKey       = 'id_order_details';
     protected $useAutoIncrement = true;
     protected $insertID         = 0;
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
-    protected $allowedFields    = ['email', 'password', 'name', 'address', 'phone_number'];
+    protected $allowedFields    = ['status'];
 
     // Dates
     protected $useTimestamps = false;

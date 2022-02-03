@@ -10,15 +10,14 @@ class LoginCustomer extends BaseController
     {
         $this->session = session();
     }
-    
+
     public function index()
     {
         //cek apakah ada session bernama isLogin
-        if (!$this->session->has('isLogin')) {
+        if (!$this->session->has('isCustomerLogin')) {
             return redirect()->to('/auth/customer/AuthCustomer/login');
+        }else{
+            return redirect()->to('Customer/ManajemenCustomer');
         }
-
-        return view('customer/index');
     }
-
 }

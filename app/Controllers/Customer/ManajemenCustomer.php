@@ -14,10 +14,11 @@ class ManajemenCustomer extends BaseController
 
     public function index()
     {
-        if (!$this->session->has('isLogin')) {
+        if (!$this->session->has('isCustomerLogin')) {
             return redirect()->to('/auth/customer/AuthCustomer/login');
+        }else{
+            return view('Customer/index');
         }
-        
-        return view('Customer/index');
     }
+
 }
