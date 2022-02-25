@@ -66,6 +66,7 @@ $routes->group('manage-admin', ['namespace' => 'App\Controllers\Admin'], ['filte
     $routes->get('user', 'User::index');
 
     // ADD / EDIT SECTION
+    $routes->add('customer/new', 'Customer::create');
     $routes->add('customer/(:segment)/edit', 'Customer::edit/$1');
 
     //DELETE SECTION

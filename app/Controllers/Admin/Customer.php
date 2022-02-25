@@ -25,28 +25,39 @@ class Customer extends BaseController
 
         $data['customer'] = $customer->findAll();
 
-        echo view('Admin/ManageCustomer/index.php', $data);
+        echo view('Admin/ManageCustomer/index', $data);
     }
 
     public function create()
     {
         // lakukan validasi
         $validation =  \Config\Services::validation();
-        $validation->setRules(['title' => 'required']);
+        $validation->setRules([
+            'name' => 'required',
+            'email' => 'required',
+            'password' => 'required',
+            'address' => 'required',
+            'phone_number' => 'required'
+        ]);
         $isDataValid = $validation->withRequest($this->request)->run();
 
         // jika data valid, simpan ke database
-        if($isDataValid){
-            $news = new NewsModel();
+        if ($isDataValid) {
+            $news = new CustomerModel();
             $news->insert([
-                "title" => $this->request->getPost('title'),
-                "content" => $this->request->getPost('content'),
-                "status" => $this->request->getPost('status'),
-                "slug" => url_title($this->request->getPost('title'), '-', TRUE)
+                "name" => $this->request->getPost('name'),
+                "email" => $this->request->getPost('email'),
+                "password" => md5($this->request->getPost('password')),
+                "address" => $this->request->getPost('address'),
+                "phone_number" => $this->request->getPost('phone_number'),
+                "created_at" => date('Y-m-d H:i:s'),
             ]);
-            return redirect('admin/news');
+            session()->setFlashdata('message', 'Create Success');
+            return redirect('manage-admin/customer');
+        } else {
+            $data["validation"] = $validation->getErrors();
         }
-		
+
         // tampilkan form create
         echo view('Admin/ManageCustomer/create');
     }
@@ -58,21 +69,36 @@ class Customer extends BaseController
 
         $validation =  \Config\Services::validation();
         $validation->setRules([
-            'id' => 'required',
-            'title' => 'required'
+            'name' => 'required',
+            'email' => 'required',
+            // 'password' => 'required',
+            'address' => 'required',
+            'phone_number' => 'required'
         ]);
         $isDataValid = $validation->withRequest($this->request)->run();
         // jika data vlid, maka simpan ke database
         if ($isDataValid) {
             $customer->update($id, [
-                "title" => $this->request->getPost('title'),
-                "content" => $this->request->getPost('content'),
-                "status" => $this->request->getPost('status')
+                "name" => $this->request->getPost('name'),
+                "email" => $this->request->getPost('email'),
+                "password" => md5($this->request->getPost('password')),
+                "address" => $this->request->getPost('address'),
+                "phone_number" => $this->request->getPost('phone_number'),
+                "updated_at" => date('Y-m-d H:i:s'),
             ]);
-            return redirect('Admin/ManageCustomer/edit');
+            session()->setFlashdata('message', 'Update Success');
+            return redirect()->to('manage-admin/customer');
+        } else {
+            $data["validation"] = $validation->getErrors();
         }
-
         // tampilkan form edit
         echo view('Admin/ManageCustomer/edit', $data);
+    }
+
+    public function delete($id)
+    {
+        $news = new CustomerModel();
+        $news->delete($id);
+        return redirect()->route('manage-admin/customer');
     }
 }

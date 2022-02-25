@@ -25,7 +25,7 @@
                 <div class="card">
                     <div class="card-body">
                         <h5 class="card-title">Table Data Customer</h5>
-                        <p>Manage Data Customer</p>
+                        <a class="btn btn-primary" href="<?= base_url('manage-admin/customer/new')?>">Tambah Data</a>
 
                         <!-- Table with stripped rows -->
                         <table class="table datatable">
