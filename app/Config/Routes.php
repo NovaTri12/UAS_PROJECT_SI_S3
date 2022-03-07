@@ -68,9 +68,18 @@ $routes->group('manage-admin', ['namespace' => 'App\Controllers\Admin'], ['filte
     // ADD / EDIT SECTION
     $routes->add('customer/new', 'Customer::create');
     $routes->add('customer/(:segment)/edit', 'Customer::edit/$1');
+    $routes->add('order/(:segment)/edit', 'Order::edit/$1');
+
 
     //DELETE SECTION
     $routes->get('customer/(:segment)/delete', 'Customer::delete/$1');
+
+});
+
+// MANAGE DATA
+$routes->group('manage-customer', ['namespace' => 'App\Controllers\Customer'], ['filter' => 'authfilter'], function ($routes) {
+    //GET SECTION
+    $routes->get('order-customer', 'OrderCustomer::index');
 
 });
 

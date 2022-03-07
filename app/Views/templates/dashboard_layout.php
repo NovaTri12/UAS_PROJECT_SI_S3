@@ -153,7 +153,7 @@ $role         = $session->get('role');
                 </li>
 
                 <li class="nav-item">
-                    <a class="nav-link " href="<?php echo base_url() ?>/Customer/Order">
+                    <a class="nav-link " href="<?php echo base_url() ?>/Customer/OrderCustomer">
                         <i class="bi bi-basket"></i>
                         <span>Order</span>
                     </a>

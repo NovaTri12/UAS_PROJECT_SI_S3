@@ -81,7 +81,7 @@ class Customer extends BaseController
             $customer->update($id, [
                 "name" => $this->request->getPost('name'),
                 "email" => $this->request->getPost('email'),
-                "password" => md5($this->request->getPost('password')),
+                // "password" => md5($this->request->getPost('password')),
                 "address" => $this->request->getPost('address'),
                 "phone_number" => $this->request->getPost('phone_number'),
                 "updated_at" => date('Y-m-d H:i:s'),

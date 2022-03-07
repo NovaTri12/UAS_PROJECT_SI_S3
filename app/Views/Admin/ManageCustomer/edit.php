@@ -38,12 +38,12 @@
                                     <input name="email" id="email" type="email" class="form-control" value="<?= $customer['email']; ?>" required>
                                 </div>
                             </div>
-                            <div class="row mb-3">
+                            <!-- <div class="row mb-3">
                                 <label for="password" class="col-sm-2 col-form-label">Password</label>
                                 <div class="col-sm-10">
                                     <input name="password" id="password" type="password" class="form-control" placeholder="type to change password">
                                 </div>
-                            </div>
+                            </div> -->
                             <div class="row mb-3">
                                 <label for="address" class="col-sm-2 col-form-label">Address</label>
                                 <div class="col-sm-10">

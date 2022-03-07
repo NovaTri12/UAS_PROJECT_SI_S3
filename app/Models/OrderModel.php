@@ -39,4 +39,16 @@ class OrderModel extends Model
     protected $afterFind      = [];
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
+
+
+    public function getAll()
+    {
+        return $this->db->table('order')
+                        ->join('membership', 'membership_id = id_membership', 'inner')
+                        ->join('order_details', 'id_order_details = id_order', 'inner')
+                        ->join('customer', 'order_details.customer_id = customer.id_customer', 'inner')
+                        ->join('project', 'project_id = id_project', 'inner')
+                        ->join('project_category', 'project_category_id = id_project_category', 'inner')
+                        ->get()->getResultArray();
+    }
 }
