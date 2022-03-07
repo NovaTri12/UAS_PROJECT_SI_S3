@@ -69,10 +69,14 @@ $routes->group('manage-admin', ['namespace' => 'App\Controllers\Admin'], ['filte
     $routes->add('customer/new', 'Customer::create');
     $routes->add('customer/(:segment)/edit', 'Customer::edit/$1');
     $routes->add('order/(:segment)/edit', 'Order::edit/$1');
+    $routes->add('kategori-project/new', 'KategoriProject::create');
+    $routes->add('kategori-project/(:segment)/edit', 'KategoriProject::edit/$1');
+
 
 
     //DELETE SECTION
     $routes->get('customer/(:segment)/delete', 'Customer::delete/$1');
+    $routes->get('kategori-project/(:segment)/delete', 'KategoriProject::delete/$1');
 
 });
 
